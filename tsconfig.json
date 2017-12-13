@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "module": "es6",
+    "jsx": "preserve",
+    "defaultExtension": "tsx",
+    "allowJs": true,
+    "target": "es5",
+    "experimentalDecorators": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "lib": ["dom", "es6", "es2015.iterable", "es2015.promise", "es2016.array.include", "es2017.object"]
+  },
+  "include": [
+      "src/**/*",
+      "src/**/*/*"
+  ],
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts"
+  ]
+}
