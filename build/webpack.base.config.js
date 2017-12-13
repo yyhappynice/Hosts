@@ -1,13 +1,13 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlwebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
-  devtool: "source-map",
   entry: {
     app: './src/renderer/app.tsx',
-    vendor: ['react', 'react-dom', 'react-router-dom']
+    vendor: ['react', 'react-dom', 'react-router-dom', 'mobx', 'mobx-react']
   },
   output: {
     filename: '[name].js',
@@ -57,11 +57,6 @@ module.exports = {
         minifyJS: true
       }
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
     new CleanWebpackPlugin(['dist'])
   ],
   devServer: {
@@ -74,7 +69,7 @@ module.exports = {
     disableHostCheck: true
   },
   resolve: {
-    extensions: ['.js', '.json', '.tsx'],
+    extensions: ['.js', '.tsx', '.json'],
     alias: {
       '@': path.join(__dirname, '../src')
     }
@@ -87,7 +82,7 @@ if(process.env.NODE_ENV === 'development') {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin() // 跳过编译时出错的代码
   ])
-} else if(process.env.NODE_ENV === 'product') {
+} else if(process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {

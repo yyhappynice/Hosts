@@ -3,8 +3,9 @@ const path = require('path')
 const {app, BrowserWindow} = require('electron')
 
 let win
-// const winURL = path.join(__dirname, '../renderer/index.html')
+const distUrl = path.join(__dirname, '../../dist/')
 const winURL = `http://127.0.0.1:8090/`
+// const winURL = `file://${distUrl}/index.html`
 
 function createWindow() {
   win = new BrowserWindow({
