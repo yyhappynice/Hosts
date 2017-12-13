@@ -6,7 +6,6 @@
     "removeComments": true,
     "module": "es6",
     "jsx": "preserve",
-    "defaultExtension": "tsx",
     "allowJs": true,
     "target": "es5",
     "experimentalDecorators": true,
