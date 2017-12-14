@@ -11,7 +11,10 @@
       "cwd": "${workspaceRoot}",
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
       "program": "${workspaceRoot}/src/main/index.js",
-      "protocol": "inspector"
+      "protocol": "inspector",
+      "env": {
+        "NODE_ENV": "development"
+      }
     }
   ]
 }

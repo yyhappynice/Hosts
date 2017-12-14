@@ -1,11 +1,11 @@
+const fs = require('fs')
 const url = require('url')
 const path = require('path')
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 
 let win
 const distUrl = path.join(__dirname, '../../dist/')
-const winURL = `http://127.0.0.1:8090/`
-// const winURL = `file://${distUrl}/index.html`
+const winURL = process.env.NODE_ENV === 'development' ? `http://127.0.0.1:8090/` : `file://${distUrl}/index.html`
 
 function createWindow() {
   win = new BrowserWindow({
@@ -19,9 +19,10 @@ function createWindow() {
 
   // and load the index.html of the app.
   win.loadURL(winURL)
-
   // Open the DevTools.
-  win.webContents.openDevTools()
+  if (process.env && process.env.NODE_ENV === 'development') {
+    win.webContents.openDevTools()
+  }
 
   // Emitted when the window is closed.
   win.on('closed', () => {
