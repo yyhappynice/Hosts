@@ -3,11 +3,11 @@ const webpack = require('webpack')
 const HtmlwebpackPlugin = require('html-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 
 module.exports = {
   entry: {
     app: './src/renderer/app.tsx',
-    vendor: ['react', 'react-dom', 'react-router-dom', 'mobx', 'mobx-react']
   },
   output: {
     filename: '[name].js',
@@ -26,7 +26,7 @@ module.exports = {
         exclude: /(node_modules)/
       },
       {
-        test: /\.(css|scss)$/,
+        test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
@@ -41,12 +41,22 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)(\?t=\d+)?$/,
-        use: ['url-loader']
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 8000,
+            name: '[name].[ext]'
+          }
+        }]
       }
     ]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js', minChunks: Infinity }),
+    // new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js', minChunks: Infinity }),
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: require('../vendor-manifest.json')
+    }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlwebpackPlugin({
@@ -56,6 +66,11 @@ module.exports = {
         collapseWhitespace: true,
         minifyJS: true
       }
+    }),
+    new AddAssetHtmlPlugin({
+      filepath: path.resolve(__dirname, '../static/*.dll.js'),
+      outputPath: './',
+      publicPath: './static'
     }),
     new CleanWebpackPlugin(['dist'])
   ],

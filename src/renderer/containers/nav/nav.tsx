@@ -10,7 +10,7 @@ export default class Nav extends React.Component<any, any> {
   }
 
   state = {
-    items: ['default']
+    items: ['default', 'test1', 'test2']
   }
 
   public render() {
@@ -19,7 +19,7 @@ export default class Nav extends React.Component<any, any> {
       <ul>
         {items.map((value: string, index: number, arr: Array<any>) => {
           return (
-            <li>{value}</li>
+            <li key={index}>{value}</li>
           )
         })}
       </ul>
